@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/listdatastatuslayout_white">
+
+    <ImageView
+        android:id="@+id/common_image"
+        android:layout_width="@dimen/listdatastatuslayout_image_width"
+        android:layout_height="@dimen/listdatastatuslayout_image_width"
+        android:layout_marginTop="@dimen/listdatastatuslayout_image_top"
+        android:gravity="center_horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/common_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/listdatastatuslayout_text_top"
+        android:textColor="@color/listdatastatuslayout_text_color"
+        android:textSize="@dimen/listdatastatuslayout_text_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/common_image"/>
+
+    <Button
+        android:id="@+id/common_btn"
+        android:layout_width="@dimen/listdatastatuslayout_btn_width"
+        android:layout_height="@dimen/listdatastatuslayout_btn_height"
+        android:layout_marginTop="@dimen/listdatastatuslayout_btn_top"
+        android:background="@drawable/selector_data_status_common_btn_normal"
+        android:gravity="center"
+        android:text="@string/listdatastatuslayout_btn_text"
+        android:textSize="@dimen/listdatastatuslayout_btn_text_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/common_hint"/>
+</android.support.constraint.ConstraintLayout>

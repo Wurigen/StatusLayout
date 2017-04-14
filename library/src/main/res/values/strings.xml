@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ListDataStatusLayout</string>
+    <string name="listdatastatuslayout_btn_text">重新加载</string>
+</resources>
