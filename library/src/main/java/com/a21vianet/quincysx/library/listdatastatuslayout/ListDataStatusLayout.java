@@ -12,8 +12,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.a21vianet.quincysx.library.listdatastatuslayout.view.DefStateViewFactory;
 import com.a21vianet.quincysx.library.listdatastatuslayout.view.IView;
+import com.a21vianet.quincysx.library.listdatastatuslayout.viewfactory.IStateViewFactory;
+import com.a21vianet.quincysx.library.listdatastatuslayout.viewfactory.impl.DefStateViewFactory;
 
 /**
  * Copyright 2017 QuincySx
@@ -48,9 +49,11 @@ public class ListDataStatusLayout extends FrameLayout {
     @ViewState
     private int mCurrentState;
 
+    private IStateViewFactory mIStateViewFactory;
+
     private static Builder sBuilder = new Builder();
 
-    private Handler mHandler = new Handler() {
+    protected Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             mCurrentState = msg.what;
@@ -113,13 +116,15 @@ public class ListDataStatusLayout extends FrameLayout {
             mContentView = getChildAt(0);
         }
 
-        mLoadingView = sBuilder.loaddingView == null ? DefStateViewFactory.getStatusView
+        mIStateViewFactory = createStateViewFactory();
+
+        mLoadingView = sBuilder.loaddingView == null ? mIStateViewFactory.getStatusView
                 (getContext(), LOADING) : sBuilder.loaddingView;
-        mErrorView = sBuilder.errorView == null ? DefStateViewFactory.getStatusView(getContext(),
-                ERROR) : sBuilder.errorView;
-        mEmptyView = sBuilder.emptyView == null ? DefStateViewFactory.getStatusView(getContext(),
-                EMPTY) : sBuilder.emptyView;
-        mNetErrorView = sBuilder.netErrorView == null ? DefStateViewFactory.getStatusView
+        mErrorView = sBuilder.errorView == null ? mIStateViewFactory.getStatusView(
+                getContext(), ERROR) : sBuilder.errorView;
+        mEmptyView = sBuilder.emptyView == null ? mIStateViewFactory.getStatusView(
+                getContext(), EMPTY) : sBuilder.emptyView;
+        mNetErrorView = sBuilder.netErrorView == null ? mIStateViewFactory.getStatusView
                 (getContext(), NETERROR) : sBuilder.netErrorView;
 
         addView(mLoadingView);
@@ -130,6 +135,10 @@ public class ListDataStatusLayout extends FrameLayout {
         hideAllView();
 
         mContentView.setVisibility(VISIBLE);
+    }
+
+    protected IStateViewFactory createStateViewFactory() {
+        return new DefStateViewFactory();
     }
 
     public void setStatus(@ViewState int status) {

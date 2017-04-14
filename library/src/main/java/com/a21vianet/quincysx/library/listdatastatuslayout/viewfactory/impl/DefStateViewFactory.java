@@ -1,10 +1,12 @@
-package com.a21vianet.quincysx.library.listdatastatuslayout.view;
+package com.a21vianet.quincysx.library.listdatastatuslayout.viewfactory.impl;
 
 import android.content.Context;
 
 import com.a21vianet.quincysx.library.listdatastatuslayout.ListDataStatusLayout;
 import com.a21vianet.quincysx.library.listdatastatuslayout.R;
+import com.a21vianet.quincysx.library.listdatastatuslayout.view.IView;
 import com.a21vianet.quincysx.library.listdatastatuslayout.view.impl.DefStatusView;
+import com.a21vianet.quincysx.library.listdatastatuslayout.viewfactory.IStateViewFactory;
 
 /**
  * Copyright 2017 QuincySx
@@ -22,8 +24,9 @@ import com.a21vianet.quincysx.library.listdatastatuslayout.view.impl.DefStatusVi
  * limitations under the License.
  */
 
-public class DefStateViewFactory {
-    public static IView getStatusView(Context context, @ListDataStatusLayout.ViewState int statusview) {
+public class DefStateViewFactory implements IStateViewFactory {
+    public IView getStatusView(Context context, @ListDataStatusLayout.ViewState int
+            statusview) {
         DefStatusView statusView = new DefStatusView(context);
         statusView.setBtnText(context.getString(R.string.listdatastatuslayout_btn_text));
         switch (statusview) {
