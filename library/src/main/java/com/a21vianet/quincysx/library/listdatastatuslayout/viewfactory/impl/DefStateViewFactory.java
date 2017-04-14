@@ -31,19 +31,23 @@ public class DefStateViewFactory implements IStateViewFactory {
         statusView.setBtnText(context.getString(R.string.listdatastatuslayout_btn_text));
         switch (statusview) {
             case ListDataStatusLayout.EMPTY:
-                statusView.setHintText("没有数据");
+                statusView.setHintText(context.getString(R.string
+                        .listdatastatuslayout_def_empty_text));
                 statusView.setHintImage(R.drawable.ic_data_status_empty);
                 break;
             case ListDataStatusLayout.NETERROR:
-                statusView.setHintText("网络连接异常");
+                statusView.setHintText(context.getString(R.string
+                        .listdatastatuslayout_def_neterror_text));
                 statusView.setHintImage(R.drawable.ic_data_status_net_error);
                 break;
             case ListDataStatusLayout.ERROR:
-                statusView.setHintText("加载失败");
+                statusView.setHintText(context.getString(R.string
+                        .listdatastatuslayout_def_error_text));
                 statusView.setHintImage(R.drawable.ic_data_status_error);
                 break;
             case ListDataStatusLayout.LOADING:
-                statusView.setHintText("正在加载");
+                statusView.setHintText(context.getString(R.string
+                        .listdatastatuslayout_def_loading_text));
                 break;
         }
         return statusView;

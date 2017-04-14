@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">ListDataStatusLayout</string>
     <string name="listdatastatuslayout_btn_text">重新加载</string>
+
+    <string name="listdatastatuslayout_def_neterror_text">网络连接异常，请稍候再试</string>
+    <string name="listdatastatuslayout_def_empty_text">暂时没有任何数据哦</string>
+    <string name="listdatastatuslayout_def_error_text">数据加载失败</string>
+    <string name="listdatastatuslayout_def_loading_text">正在加载</string>
 </resources>
