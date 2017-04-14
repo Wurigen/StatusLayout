@@ -33,11 +33,23 @@ import com.a21vianet.quincysx.library.listdatastatuslayout.viewfactory.impl.DefS
  */
 
 public class ListDataStatusLayout extends FrameLayout {
+    //视图
     public static final int SUCCESS = 0x00001;
     public static final int ERROR = 0x00002;
     public static final int EMPTY = 0x00003;
     public static final int NETERROR = 0x00004;
     public static final int LOADING = 0x00005;
+
+
+    /**
+     * 内部嵌套组件-默认方式
+     */
+    public static final int NEST = 0x00006;
+
+    /**
+     * 覆盖方式使用
+     */
+    public static final int COVER = 0x00007;
 
     private View mContentView;
 
@@ -48,6 +60,9 @@ public class ListDataStatusLayout extends FrameLayout {
 
     @ViewState
     private int mCurrentState;
+
+    @ViewModel
+    private int mViewModel;
 
     private IStateViewFactory mIStateViewFactory;
 
@@ -60,9 +75,7 @@ public class ListDataStatusLayout extends FrameLayout {
             hideAllView();
             switch (msg.what) {
                 case SUCCESS:
-                    if (mContentView != null) {
-                        mContentView.setVisibility(VISIBLE);
-                    }
+                    showContentView();
                     break;
                 case ERROR:
                     if (mErrorView != null) {
@@ -112,20 +125,26 @@ public class ListDataStatusLayout extends FrameLayout {
     }
 
     private void build() {
+        mViewModel = sBuilder.viewModel;
+
         if (getChildCount() > 0) {
             mContentView = getChildAt(0);
+        } else {
+            if (mViewModel == NEST) {
+                throw new RuntimeException("因为您的模式选择为 NEST 方式，所以控件内必须要有一个子布局!");
+            }
         }
 
         mIStateViewFactory = createStateViewFactory();
 
-        mLoadingView = sBuilder.loaddingView == null ? mIStateViewFactory.getStatusView
-                (getContext(), LOADING) : sBuilder.loaddingView;
-        mErrorView = sBuilder.errorView == null ? mIStateViewFactory.getStatusView(
-                getContext(), ERROR) : sBuilder.errorView;
-        mEmptyView = sBuilder.emptyView == null ? mIStateViewFactory.getStatusView(
-                getContext(), EMPTY) : sBuilder.emptyView;
-        mNetErrorView = sBuilder.netErrorView == null ? mIStateViewFactory.getStatusView
-                (getContext(), NETERROR) : sBuilder.netErrorView;
+        setLoadingView(sBuilder.loaddingView == null ? mIStateViewFactory.getStatusView
+                (getContext(), LOADING) : sBuilder.loaddingView);
+        setErrorView(sBuilder.errorView == null ? mIStateViewFactory.getStatusView(
+                getContext(), ERROR) : sBuilder.errorView);
+        setEmptyView(sBuilder.emptyView == null ? mIStateViewFactory.getStatusView(
+                getContext(), EMPTY) : sBuilder.emptyView);
+        setNetErrorView(sBuilder.netErrorView == null ? mIStateViewFactory.getStatusView
+                (getContext(), NETERROR) : sBuilder.netErrorView);
 
         addView(mLoadingView);
         addView(mErrorView);
@@ -134,7 +153,7 @@ public class ListDataStatusLayout extends FrameLayout {
 
         hideAllView();
 
-        mContentView.setVisibility(VISIBLE);
+        showContentView();
     }
 
     protected IStateViewFactory createStateViewFactory() {
@@ -146,9 +165,7 @@ public class ListDataStatusLayout extends FrameLayout {
     }
 
     private void hideAllView() {
-        if (mLoadingView != null) {
-            mContentView.setVisibility(GONE);
-        }
+        hideContentView();
         if (mLoadingView != null) {
             mLoadingView.hideView();
         }
@@ -160,6 +177,34 @@ public class ListDataStatusLayout extends FrameLayout {
         }
         if (mNetErrorView != null) {
             mNetErrorView.hideView();
+        }
+    }
+
+    private void showContentView() {
+        switch (mViewModel) {
+            case NEST:
+                if (getVisibility() == GONE) {
+                    setVisibility(VISIBLE);
+                }
+                mContentView.setVisibility(VISIBLE);
+                break;
+            case COVER:
+                setVisibility(GONE);
+                break;
+        }
+    }
+
+    private void hideContentView() {
+        switch (mViewModel) {
+            case NEST:
+                if (getVisibility() == GONE) {
+                    setVisibility(VISIBLE);
+                }
+                mContentView.setVisibility(GONE);
+                break;
+            case COVER:
+                setVisibility(VISIBLE);
+                break;
         }
     }
 
@@ -204,6 +249,16 @@ public class ListDataStatusLayout extends FrameLayout {
         return this;
     }
 
+    public ListDataStatusLayout setViewModel(@ViewModel int model) {
+        mViewModel = model;
+        return this;
+    }
+
+    @ViewModel
+    public int getViewModel() {
+        return mViewModel;
+    }
+
     public void setOnClickListener(OnClickListener onClickListener) {
         mNetErrorView.setOnClickListener(onClickListener);
         mLoadingView.setOnClickListener(onClickListener);
@@ -220,6 +275,9 @@ public class ListDataStatusLayout extends FrameLayout {
         private IView errorView;
         private IView emptyView;
         private IView netErrorView;
+
+        @ViewModel
+        private int viewModel = NEST;
 
         public Builder setLoaddingView(IView view) {
             sBuilder.loaddingView = view;
@@ -240,9 +298,18 @@ public class ListDataStatusLayout extends FrameLayout {
             sBuilder.netErrorView = view;
             return sBuilder;
         }
+
+        public Builder setViewModel(@ViewModel int model) {
+            sBuilder.viewModel = model;
+            return sBuilder;
+        }
     }
 
     @IntDef({SUCCESS, ERROR, EMPTY, NETERROR, LOADING})
     public @interface ViewState {
+    }
+
+    @IntDef({NEST, COVER})
+    public @interface ViewModel {
     }
 }
