@@ -22,6 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/listdatastatuslayout_text_top"
+        android:gravity="center"
         android:textColor="@color/listdatastatuslayout_text_color"
         android:textSize="@dimen/listdatastatuslayout_text_size"
         app:layout_constraintLeft_toLeftOf="parent"
