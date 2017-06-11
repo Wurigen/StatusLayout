@@ -1,13 +1,14 @@
 package com.a21vianet.quincysx.demo.listdatastatuslayout;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import com.a21vianet.quincysx.library.listdatastatuslayout.ListDataStatusLayout;
+import com.a21vianet.quincysx.library.listdatastatuslayout.viewfactory.impl.DefStateViewFactory;
 
 /**
  * Copyright 2017 QuincySx

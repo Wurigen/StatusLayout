@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.a21vianet.quincysx.library.listdatastatuslayout.R;
-import com.a21vianet.quincysx.library.listdatastatuslayout.view.IView;
+import com.a21vianet.quincysx.library.listdatastatuslayout.view.IStateView;
 import com.bumptech.glide.Glide;
 
 /**
@@ -29,7 +29,7 @@ import com.bumptech.glide.Glide;
  * limitations under the License.
  */
 
-public class DefStatusView extends IView {
+public class DefStatusView extends IStateView {
     private View mContentView;
     private Button mButton;
     private TextView mTextView;

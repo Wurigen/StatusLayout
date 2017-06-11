@@ -12,9 +12,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.a21vianet.quincysx.library.listdatastatuslayout.view.IView;
+import com.a21vianet.quincysx.library.listdatastatuslayout.view.IStateView;
 import com.a21vianet.quincysx.library.listdatastatuslayout.viewfactory.IStateViewFactory;
-import com.a21vianet.quincysx.library.listdatastatuslayout.viewfactory.impl.DefStateViewFactory;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Copyright 2017 QuincySx
@@ -39,6 +41,8 @@ public class ListDataStatusLayout extends FrameLayout {
     public static final int EMPTY = 0x00003;
     public static final int NETERROR = 0x00004;
     public static final int LOADING = 0x00005;
+    public static final int MORE1 = 0x00006;
+    public static final int MORE2 = 0x00007;
 
 
     /**
@@ -53,10 +57,10 @@ public class ListDataStatusLayout extends FrameLayout {
 
     private View mContentView;
 
-    private IView mLoadingView;
-    private IView mErrorView;
-    private IView mEmptyView;
-    private IView mNetErrorView;
+    /**
+     * 布局存放
+     */
+    private Map<Integer, IStateView> mStateViewMap;
 
     @ViewState
     private int mCurrentState;
@@ -74,29 +78,18 @@ public class ListDataStatusLayout extends FrameLayout {
             mCurrentState = msg.what;
             hideAllView();
             switch (msg.what) {
-                case SUCCESS:
-                    showContentView();
-                    break;
                 case ERROR:
-                    if (mErrorView != null) {
-                        mErrorView.showView();
-                    }
-                    break;
                 case EMPTY:
-                    if (mEmptyView != null) {
-                        mEmptyView.showView();
-                    }
-                    break;
                 case NETERROR:
-                    if (mNetErrorView != null) {
-                        mNetErrorView.showView();
-                    }
-                    break;
                 case LOADING:
-                    if (mLoadingView != null) {
-                        mLoadingView.showView();
+                case MORE1:
+                case MORE2:
+                    if (mStateViewMap.get(mCurrentState) != null) {
+                        mStateViewMap.get(mCurrentState).showView();
                     }
                     break;
+                default:
+                    showContentView();
             }
         }
     };
@@ -126,6 +119,7 @@ public class ListDataStatusLayout extends FrameLayout {
 
     private void build() {
         mViewModel = sBuilder.viewModel;
+        mStateViewMap = sBuilder.stateViewMap;
 
         if (getChildCount() > 0) {
             mContentView = getChildAt(0);
@@ -135,29 +129,17 @@ public class ListDataStatusLayout extends FrameLayout {
             }
         }
 
-        mIStateViewFactory = createStateViewFactory();
-
-        setLoadingView(sBuilder.loaddingView == null ? mIStateViewFactory.getStatusView
-                (getContext(), LOADING) : sBuilder.loaddingView);
-        setErrorView(sBuilder.errorView == null ? mIStateViewFactory.getStatusView(
-                getContext(), ERROR) : sBuilder.errorView);
-        setEmptyView(sBuilder.emptyView == null ? mIStateViewFactory.getStatusView(
-                getContext(), EMPTY) : sBuilder.emptyView);
-        setNetErrorView(sBuilder.netErrorView == null ? mIStateViewFactory.getStatusView
-                (getContext(), NETERROR) : sBuilder.netErrorView);
-
-        addView(mLoadingView);
-        addView(mErrorView);
-        addView(mEmptyView);
-        addView(mNetErrorView);
+        addAllView();
 
         hideAllView();
 
         showContentView();
     }
 
-    protected IStateViewFactory createStateViewFactory() {
-        return new DefStateViewFactory();
+    private void addAllView() {
+        for (IStateView view : mStateViewMap.values()) {
+            addView(view);
+        }
     }
 
     public void setStatus(@ViewState int status) {
@@ -166,17 +148,8 @@ public class ListDataStatusLayout extends FrameLayout {
 
     private void hideAllView() {
         hideContentView();
-        if (mLoadingView != null) {
-            mLoadingView.hideView();
-        }
-        if (mErrorView != null) {
-            mErrorView.hideView();
-        }
-        if (mEmptyView != null) {
-            mEmptyView.hideView();
-        }
-        if (mNetErrorView != null) {
-            mNetErrorView.hideView();
+        for (IStateView view : mStateViewMap.values()) {
+            view.hideView();
         }
     }
 
@@ -208,20 +181,8 @@ public class ListDataStatusLayout extends FrameLayout {
         }
     }
 
-    public IView getLoadingView() {
-        return mLoadingView;
-    }
-
-    public IView getErrorView() {
-        return mErrorView;
-    }
-
-    public IView getEmptyView() {
-        return mEmptyView;
-    }
-
-    public IView getNetErrorView() {
-        return mNetErrorView;
+    public IStateView getStateView(@ViewState int stateView) {
+        return mStateViewMap.get(stateView);
     }
 
     @ViewState
@@ -229,23 +190,10 @@ public class ListDataStatusLayout extends FrameLayout {
         return mCurrentState;
     }
 
-    public ListDataStatusLayout setLoadingView(IView loadingView) {
-        mLoadingView = loadingView;
-        return this;
-    }
-
-    public ListDataStatusLayout setErrorView(IView errorView) {
-        mErrorView = errorView;
-        return this;
-    }
-
-    public ListDataStatusLayout setEmptyView(IView emptyView) {
-        mEmptyView = emptyView;
-        return this;
-    }
-
-    public ListDataStatusLayout setNetErrorView(IView netErrorView) {
-        mNetErrorView = netErrorView;
+    public ListDataStatusLayout addStateView(@ViewState int stateView, IStateView view) {
+        view.hideView();
+        mStateViewMap.put(stateView, view);
+        addView(mStateViewMap.get(stateView));
         return this;
     }
 
@@ -260,10 +208,9 @@ public class ListDataStatusLayout extends FrameLayout {
     }
 
     public void setOnClickListener(OnClickListener onClickListener) {
-        mNetErrorView.setOnClickListener(onClickListener);
-        mLoadingView.setOnClickListener(onClickListener);
-        mErrorView.setOnClickListener(onClickListener);
-        mEmptyView.setOnClickListener(onClickListener);
+        for (IStateView view : mStateViewMap.values()) {
+            view.setOnClickListener(onClickListener);
+        }
     }
 
     public static Builder getBuilder() {
@@ -271,31 +218,14 @@ public class ListDataStatusLayout extends FrameLayout {
     }
 
     public static class Builder {
-        private IView loaddingView;
-        private IView errorView;
-        private IView emptyView;
-        private IView netErrorView;
+        private Map<Integer, IStateView> stateViewMap = new ConcurrentHashMap<>();
 
         @ViewModel
         private int viewModel = NEST;
 
-        public Builder setLoaddingView(IView view) {
-            sBuilder.loaddingView = view;
-            return sBuilder;
-        }
-
-        public Builder setErrorView(IView view) {
-            sBuilder.errorView = view;
-            return sBuilder;
-        }
-
-        public Builder setEmptyView(IView view) {
-            sBuilder.emptyView = view;
-            return sBuilder;
-        }
-
-        public Builder setNetErrorView(IView view) {
-            sBuilder.netErrorView = view;
+        public Builder addStateView(@ViewState int stateView, IStateView view) {
+            view.hideView();
+            stateViewMap.put(stateView, view);
             return sBuilder;
         }
 
@@ -305,7 +235,7 @@ public class ListDataStatusLayout extends FrameLayout {
         }
     }
 
-    @IntDef({SUCCESS, ERROR, EMPTY, NETERROR, LOADING})
+    @IntDef({SUCCESS, ERROR, EMPTY, NETERROR, LOADING, MORE1, MORE2})
     public @interface ViewState {
     }
 

@@ -23,19 +23,19 @@ import android.widget.LinearLayout;
  * limitations under the License.
  */
 
-public abstract class IView extends LinearLayout {
+public abstract class IStateView extends LinearLayout {
     public final static int BTN = 0x0001;
     public final static int FULL = 0x0002;
 
-    public IView(Context context) {
+    public IStateView(Context context) {
         this(context, null);
     }
 
-    public IView(Context context, @Nullable AttributeSet attrs) {
+    public IStateView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public IView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public IStateView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView();
     }

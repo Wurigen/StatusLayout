@@ -3,7 +3,7 @@ package com.a21vianet.quincysx.library.listdatastatuslayout.viewfactory;
 import android.content.Context;
 
 import com.a21vianet.quincysx.library.listdatastatuslayout.ListDataStatusLayout;
-import com.a21vianet.quincysx.library.listdatastatuslayout.view.IView;
+import com.a21vianet.quincysx.library.listdatastatuslayout.view.IStateView;
 
 /**
  * Copyright 2017 QuincySx
@@ -22,5 +22,5 @@ import com.a21vianet.quincysx.library.listdatastatuslayout.view.IView;
  */
 
 public interface IStateViewFactory {
-    IView getStatusView(Context context, @ListDataStatusLayout.ViewState int statusview);
+    IStateView getStatusView(Context context, @ListDataStatusLayout.ViewState int statusview);
 }
