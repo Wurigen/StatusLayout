@@ -25,7 +25,7 @@ allprojects {
 ```
 dependencies {
 	...
-	compile 'com.github.QuincySx:ListDataStatusLayout:1.0.4'
+	compile 'com.github.QuincySx:ListDataStatusLayout:1.0.6'
 }
 ```
 
