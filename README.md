@@ -5,9 +5,9 @@
 
 ### 特色
 > 1. 支持全局设置各个页面
-1. 也可以单独在每个 Activity/Fragment 里进行单独设置
-1. 可以嵌套使用
-1. 也可以已覆盖方式使用
+> 1. 也可以单独在每个 Activity/Fragment 里进行单独设置
+> 1. 可以嵌套使用
+> 1. 也可以已覆盖方式使用
       
 ### 使用方式
 1. 在你的项目的 build.gradle 添加以下代码
@@ -47,7 +47,7 @@ Add it in your root build.gradle at the end of repositories:
 4. XML 写法
 
 ```
-	<com.a21vianet.quincysx.library.listdatastatuslayout.ListDataStatusLayout
+    <com.a21vianet.quincysx.library.listdatastatuslayout.ListDataStatusLayout
         android:id="@+id/listdatastatus"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
