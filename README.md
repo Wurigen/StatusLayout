@@ -13,28 +13,28 @@
 1. 在你的项目的 build.gradle 添加以下代码
 Add it in your root build.gradle at the end of repositories:
 ```
-	allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
 	}
+}
 ```
 
 2. 在你的 Library 中添加如下代码
 ```
-	dependencies {
-	        ...
-	        compile 'com.github.QuincySx:ListDataStatusLayout:1.0.4'
-	}
+dependencies {
+	...
+	compile 'com.github.QuincySx:ListDataStatusLayout:1.0.4'
+}
 ```
 
 3. 在您的代码的相关地方中添加以下代码
 
 ```
-	DefStateViewFactory defStateViewFactory = new DefStateViewFactory();
+DefStateViewFactory defStateViewFactory = new DefStateViewFactory();
 
-	ListDataStatusLayout.Builder builder = ListDataStatusLayout.getBuilder()
+ListDataStatusLayout.Builder builder = ListDataStatusLayout.getBuilder()
                 .addStateView(ListDataStatusLayout.NETERROR, defStateViewFactory.getStatusView(this, ListDataStatusLayout.NETERROR))
                 .addStateView(ListDataStatusLayout.ERROR, defStateViewFactory.getStatusView(this, ListDataStatusLayout.ERROR))
                 .addStateView(ListDataStatusLayout.SUCCESS, defStateViewFactory.getStatusView(this, ListDataStatusLayout.SUCCESS))
@@ -47,32 +47,32 @@ Add it in your root build.gradle at the end of repositories:
 4. XML 写法
 
 ```
-    <com.a21vianet.quincysx.library.listdatastatuslayout.ListDataStatusLayout
+<com.a21vianet.quincysx.library.listdatastatuslayout.ListDataStatusLayout
         android:id="@+id/listdatastatus"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+    <TextView
             android:layout_width="match_parent"
             android:text="加載成功"
             android:layout_height="match_parent"/>
-    </com.a21vianet.quincysx.library.listdatastatuslayout.ListDataStatusLayout>
+</com.a21vianet.quincysx.library.listdatastatuslayout.ListDataStatusLayout>
 
 ```
 
 5. 局部代码
 
 ```
-	mListDataStatusLayout = (ListDataStatusLayout) findViewById(R.id.listdatastatus);
+mListDataStatusLayout = (ListDataStatusLayout) findViewById(R.id.listdatastatus);
 
-        mListDataStatusLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("我是点击", "=============" + v.getId() + "");
-            }
-        });
-        mListDataStatusLayout.setStatus(ListDataStatusLayout.EMPTY);
+mListDataStatusLayout.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Log.e("我是点击", "=============" + v.getId() + "");
+    }
+});
+mListDataStatusLayout.setStatus(ListDataStatusLayout.EMPTY);
         
-        //可以使用此方法临时添加 状态 View ，在此设置 不会影响其他页面的 View
-        mListDataStatusLayout.addStateView(int,IStateView);
+//可以使用此方法临时添加 状态 View ，在此设置 不会影响其他页面的 View
+mListDataStatusLayout.addStateView(int,IStateView);
 ```
