@@ -1,4 +1,4 @@
-## StatusLayout [![](https://jitpack.io/v/QuincySx/ListDataStatusLayout.svg)](https://jitpack.io/#QuincySx/ListDataStatusLayout)
+## StatusLayout [![](https://jitpack.io/v/QuincySx/StatusLayout.svg)](https://jitpack.io/#QuincySx/StatusLayout)
 
 ### 介绍
 这是一个状态页面的集合，方面在不同页面进行调用，View 完全支持自定义
@@ -24,7 +24,7 @@ allprojects {
 ```
 dependencies {
 	...
-	compile 'com.github.QuincySx:ListDataStatusLayout:1.1.0'
+	compile 'com.github.QuincySx:StatusLayout:1.1.0'
 }
 ```
 
@@ -69,9 +69,9 @@ public class EmptyView extends StatusView {
 5. Activity/Fragment 写法
 
 ```
-mListDataStatusLayout = (ListDataStatusLayout) findViewById(R.id.listdatastatus);
+mStatusLayout = (StatusLayout) findViewById(R.id.statuslayout);
 
-mListDataStatusLayout.setCallback(new StatusView.Callback() {
+mStatusLayout.setCallback(new StatusView.Callback() {
      @Override
      public void onHandle(StatusView view) {
          //点击任意页面的回调 view 是被点击的页面
@@ -79,7 +79,7 @@ mListDataStatusLayout.setCallback(new StatusView.Callback() {
      }
 });
 //传入自己继承的 StatusView 的 class 就会相应的显示页面
-mListDataStatusLayout.showAction(EmptyView.class);
+mStatusLayout.showAction(EmptyView.class);
 //显示你自己的页面
-mListDataStatusLayout.showSuccess();
+mStatusLayout.showSuccess();
 ```
