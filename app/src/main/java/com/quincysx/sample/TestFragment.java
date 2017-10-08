@@ -31,8 +31,8 @@ public class TestFragment extends Fragment implements Handler.Callback {
 
         mListDataStatusLayout.setCallback(new StatusView.Callback() {
             @Override
-            public void onHandle() {
-                Log.e("我是点击", "=============" + "");
+            public void onHandle(StatusView view) {
+                Log.e("我是点击", "=============" + "" + view.getClass());
             }
         });
 

@@ -14,9 +14,6 @@ import com.quincysx.statuslayout.StatusView;
 
 public class EmptyView extends StatusView {
 
-    public EmptyView() {
-    }
-
     @Override
     protected View initContentView() {
         View inflate = View.inflate(getContext(), R.layout.commonlayout, null);

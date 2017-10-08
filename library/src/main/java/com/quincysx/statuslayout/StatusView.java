@@ -50,7 +50,7 @@ public abstract class StatusView {
         mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCallback.onHandle();
+                mCallback.onHandle(StatusView.this);
                 onFeedback();
             }
         });
@@ -68,6 +68,6 @@ public abstract class StatusView {
     protected abstract void onFeedback();
 
     public interface Callback {
-        void onHandle();
+        void onHandle(StatusView view);
     }
 }
