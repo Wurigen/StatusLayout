@@ -1,3 +1,5 @@
+## StatusLayout [![](https://jitpack.io/v/QuincySx/ListDataStatusLayout.svg)](https://jitpack.io/#QuincySx/ListDataStatusLayout)
+
 ### 介绍
 这是一个状态页面的集合，方面在不同页面进行调用，View 完全支持自定义
     
