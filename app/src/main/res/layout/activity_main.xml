@@ -4,10 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.a21vianet.quincysx.demo.listdatastatuslayout.MainActivity">
+    android:layout_height="match_parent">
 
-    <com.a21vianet.quincysx.library.listdatastatuslayout.ListDataStatusLayout
+    <com.quincysx.statuslayout.StatusLayout
         android:id="@+id/listdatastatus"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -18,7 +17,8 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:text="加載成功"
-            android:layout_height="match_parent"/>
-    </com.a21vianet.quincysx.library.listdatastatuslayout.ListDataStatusLayout>
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="加載成功"/>
+    </com.quincysx.statuslayout.StatusLayout>
 </android.support.constraint.ConstraintLayout>
