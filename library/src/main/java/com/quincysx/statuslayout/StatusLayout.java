@@ -70,10 +70,13 @@ public class StatusLayout extends FrameLayout {
                 throw new NullPointerException("View 构建失败");
             }
             addView(showView.getView());
+            mCacheStatusViewMap.put(aClass, showView);
         }
-        hideViewAll();
-        showView.getView().setVisibility(VISIBLE);
-        mCacheStatusViewMap.put(aClass, showView);
+        if (showView.getView().getVisibility() != VISIBLE) {
+            showView.getView().setVisibility(VISIBLE);
+        }
+        hideViewByView(showView);
+
         if (mCallback != null) {
             showView.setCallback(mCallback);
         }
@@ -82,6 +85,14 @@ public class StatusLayout extends FrameLayout {
     private void hideViewAll() {
         for (StatusView view : mCacheStatusViewMap.values()) {
             view.getView().setVisibility(GONE);
+        }
+    }
+
+    private void hideViewByView(StatusView statusView) {
+        for (StatusView view : mCacheStatusViewMap.values()) {
+            if (view != statusView) {
+                view.getView().setVisibility(GONE);
+            }
         }
     }
 
