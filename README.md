@@ -24,7 +24,7 @@ allprojects {
 ```
 dependencies {
 	...
-	compile 'com.github.QuincySx:StatusLayout:1.1.1'
+	compile 'com.github.QuincySx:StatusLayout:1.1.2'
 }
 ```
 
