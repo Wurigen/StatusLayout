@@ -83,3 +83,14 @@ mStatusLayout.showAction(EmptyView.class);
 //显示你自己的页面
 mStatusLayout.showSuccess();
 ```
+
+6. 本库默认的点击区域是整个布局，如果您对此有自己的设计，请看如下写法
+
+在 StatusView 的子类中重写 getClickView(View root) 方法，root 参数是您在 initContentView() 方法中返回的 View ，您可以在 root 中找出自己的需要监听点击事件的 View 进行返回
+
+```
+@Override
+protected View getClickView(View root) {
+    return super.getClickView(root);
+}
+```
