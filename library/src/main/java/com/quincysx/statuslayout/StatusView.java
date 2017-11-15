@@ -1,6 +1,7 @@
 package com.quincysx.statuslayout;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 /**
@@ -22,7 +23,6 @@ import android.view.View;
 public abstract class StatusView {
     private Context mContext;
     private View mView;
-    private Callback mCallback;
 
     public StatusView() {
     }
@@ -30,7 +30,6 @@ public abstract class StatusView {
     public StatusView(Context context, View view, Callback callback) {
         mContext = context;
         mView = view;
-        mCallback = callback;
     }
 
     public void setContext(Context context) {
@@ -46,11 +45,10 @@ public abstract class StatusView {
     }
 
     public void setCallback(final Callback callback) {
-        mCallback = callback;
-        mView.setOnClickListener(new View.OnClickListener() {
+        getClickView(mView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCallback.onHandle(StatusView.this);
+                callback.onHandle(StatusView.this);
                 onFeedback();
             }
         });
@@ -63,9 +61,28 @@ public abstract class StatusView {
         return mView;
     }
 
+    /**
+     * 初始化View
+     *
+     * @return View
+     */
     protected abstract View initContentView();
 
+    /**
+     * 点击监听回调
+     */
     protected abstract void onFeedback();
+
+    /**
+     * 默认的点击区域是整个View，如果自己有别的需求重写此方法
+     *
+     * @param root 根布局 View
+     * @return 你需要监听的 View
+     */
+    @NonNull
+    protected View getClickView(View root) {
+        return root;
+    }
 
     public interface Callback {
         void onHandle(StatusView view);
